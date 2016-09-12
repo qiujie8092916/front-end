@@ -15,7 +15,10 @@ var TabBanner = function(){
 	var main_nav = $("#main-img-nav")
 	var oul = main_img.children("ul")[0]
 	var li = $(oul).children("li")	//array
-	var tab = function(){
+	var tab = function(){/*
+		$.each(li, function(i, e){
+			e.style.left -= 710 + "px"
+		})	*/
 		oul.style.left -= $(li[0]).width() + "px"
 	}
 	
