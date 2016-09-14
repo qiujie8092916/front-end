@@ -41,6 +41,7 @@
 /***************global*****************/
 *{ padding: 0; margin: 0;}
 a{text-decoration: none; &:hover{ text-decoration: underline;}}
+button{cursor: pointer;}
 title{@extend .inline; margin-bottom: 15px; color: #444}
 div, li, a, input{ @include box-sizing(border-box);}
 img { border: none; vertical-align: top;}
@@ -930,6 +931,82 @@ body{ line-height: 1.5; background-color: #f1f2f3; font-size: 12px; font-family:
 	    	/*margin: 0 20px 20px 0;*/
 	    	position: absolute;
 	    	
+	    	.crollbtn{
+	    	 	width: 224px;
+			    height: 60px;
+			    padding: 8px;
+			    display: none;
+			    display: inline-block;
+			    z-index: 500;
+			    background: url(../../imgs/like.png) 0 -72px no-repeat;
+			    position: absolute;
+			    left: 0px;
+			    top: 0px;
+    			
+			    button{
+				    display: block;
+				    height: 30px;
+				    color: #fff;
+				    border: 0;
+				    border-radius: 2px;
+				    font-size: 14px;
+			    }
+				    
+			    .a{
+				    float: left;
+				    text-align: center;
+				    background-color: #f46;
+				    padding: 3px 8px 3px 4px;
+				    z-index: 500;
+				    
+						i{
+							@extend .inline;
+							float: left;
+							width: 24px;
+							height: 24px;
+							background: url(../../imgs/like.png) 0 0 no-repeat
+						}
+						
+						em{
+							float: left;
+							line-height: 16px;
+							height: 16px;
+    					margin-top: 4px;
+							font-style: normal;	
+						}
+						
+				    &:hover{
+				    	background-color: #e03c5a;
+				    }
+			    }
+			    
+			    
+			    .c{
+				    float: right;
+				    width: 36px;
+				    margin-right: 4px;
+				    background: url(../../imgs/like.png) -17px 2px no-repeat;
+				    background-color: #fff;
+				    
+				    &:hover{
+				    	background-color: #f0f0f0;
+				    }
+			    }
+			    
+			    .b{
+				    float: right;
+				    width: 36px;
+				    z-index: 500;
+				    margin-left: 4px;
+				    background: url(../../imgs/like.png) -43px 2px no-repeat;
+				    background-color: #fff;
+				    
+				    &:hover{
+				    	background-color: #f0f0f0;
+				    }
+			    }
+	    	}
+	    	
 	    	.img-header-style{
 	    		width: 222px;
 			    margin-top: 0!important;
@@ -953,7 +1030,7 @@ body{ line-height: 1.5; background-color: #f1f2f3; font-size: 12px; font-family:
 	    		
 	    		.number{
 						padding: 0 12px 10px;
-		    		border-bottom: 1px solid #f0f0f0;
+		    		/*border-bottom: 1px solid #f0f0f0;*/
 		    		width: 100%;
 	    			
 		    		.h{
@@ -972,16 +1049,24 @@ body{ line-height: 1.5; background-color: #f1f2f3; font-size: 12px; font-family:
 		    		
 		    		.p{
 		    			float: right;
-		    			
+
 		    			a{
 								color: #F14382;
 								font-weight: 700;
 		    			}
 		    		}
+
+		    		.m{
+		    			float: left;
+		    			background: url(../../imgs/like.png) -175px -50px no-repeat;
+	    				padding-left: 16px;
+	    				margin-right: 8px;
+		    		}
 	    		}
 	    		
 	    		.item-attr{
-	    			padding: 8px 11px 15px;
+	    			padding: 8px 11px 7px;
+	    			border-top: 1px solid #f0f0f0;
 	    			
 	    			img{
 	    				border-radius: 60%;	
@@ -996,16 +1081,26 @@ body{ line-height: 1.5; background-color: #f1f2f3; font-size: 12px; font-family:
 	    					font-size: 12px !important;
 	    				}
 	    				
-	    				.collect{
-	    					margin-left: 10px;
+	    				p{
+	    					color: #888;
+	    					
+		    				.collect{
+		    					margin-left: 10px;
+		    				}
 	    				}
 	    			}
 	    		}
 	    	}
 	    	
-	    	&:hover i{
-	    		border: 1px solid rgba(0,0,0,.12);
-    			background-color: rgba(0,0,0,.08);	
+	    	&:hover{ 
+	    		.img-header-style{
+	    			border: 1px solid rgba(0,0,0,.12);
+    				background-color: rgba(0,0,0,.08);
+    			}
+    			/*
+    			.crollbtn{
+    				display: inline-block;	
+    			}	*/
 	    	}
 	    }
     }

@@ -8,6 +8,9 @@ a {
   a:hover {
     text-decoration: underline; }
 
+button {
+  cursor: pointer; }
+
 title {
   margin-bottom: 15px;
   color: #444; }
@@ -34,7 +37,7 @@ body {
   color: #666;
   height: 100%; }
 
-.inline, title, .special-com .more, .container .body-center .album .more, .container .body-center .single .more, .container .body-center .recommand .more, .special-com .special-content, .container .body-center .album .special-content, .container .body-center .single .special-content, .container .body-center .recommand .special-content, .special-com .special-content section .section-desc .a-desc, .container .body-center .album .special-content section .section-desc .a-desc, .container .body-center .single .special-content section .section-desc .a-desc, .container .body-center .recommand .special-content section .section-desc .a-desc, .container .body-top #main-img:hover #a-btnl i, .container .body-top #main-img:hover #a-btnr i, .container .body-top .main-aside .aside-top .ul-inline li, .container .body-top .main-aside .aside-top .ul-break li, .container .body-top .main-aside .aside-top .ul-break li .label, .container .body-center .single .guide .single-guide, .container .body-center .single .guide .single-guide li, footer .module a, footer .module .item-module, footer .module .item-module .snippet li, footer .Copyright .right01, footer .Copyright .right02, footer .Copyright .right03, #fix-btn a {
+.inline, title, .special-com .more, .container .body-center .album .more, .container .body-center .single .more, .container .body-center .recommand .more, .special-com .special-content, .container .body-center .album .special-content, .container .body-center .single .special-content, .container .body-center .recommand .special-content, .special-com .special-content section .section-desc .a-desc, .container .body-center .album .special-content section .section-desc .a-desc, .container .body-center .single .special-content section .section-desc .a-desc, .container .body-center .recommand .special-content section .section-desc .a-desc, .container .body-top #main-img:hover #a-btnl i, .container .body-top #main-img:hover #a-btnr i, .container .body-top .main-aside .aside-top .ul-inline li, .container .body-top .main-aside .aside-top .ul-break li, .container .body-top .main-aside .aside-top .ul-break li .label, .container .body-center .single .guide .single-guide, .container .body-center .single .guide .single-guide li, .container .fall ul .item .crollbtn .a i, footer .module a, footer .module .item-module, footer .module .item-module .snippet li, footer .Copyright .right01, footer .Copyright .right02, footer .Copyright .right03, #fix-btn a {
   display: inline-block; }
 
 .block {
@@ -719,6 +722,60 @@ body {
         width: 224px;
         /*margin: 0 20px 20px 0;*/
         position: absolute; }
+        .container .fall ul .item .crollbtn {
+          width: 224px;
+          height: 60px;
+          padding: 8px;
+          display: none;
+          display: inline-block;
+          z-index: 500;
+          background: url(../../imgs/like.png) 0 -72px no-repeat;
+          position: absolute;
+          left: 0px;
+          top: 0px; }
+          .container .fall ul .item .crollbtn button {
+            display: block;
+            height: 30px;
+            color: #fff;
+            border: 0;
+            border-radius: 2px;
+            font-size: 14px; }
+          .container .fall ul .item .crollbtn .a {
+            float: left;
+            text-align: center;
+            background-color: #f46;
+            padding: 3px 8px 3px 4px;
+            z-index: 500; }
+            .container .fall ul .item .crollbtn .a i {
+              float: left;
+              width: 24px;
+              height: 24px;
+              background: url(../../imgs/like.png) 0 0 no-repeat; }
+            .container .fall ul .item .crollbtn .a em {
+              float: left;
+              line-height: 16px;
+              height: 16px;
+              margin-top: 4px;
+              font-style: normal; }
+            .container .fall ul .item .crollbtn .a:hover {
+              background-color: #e03c5a; }
+          .container .fall ul .item .crollbtn .c {
+            float: right;
+            width: 36px;
+            margin-right: 4px;
+            background: url(../../imgs/like.png) -17px 2px no-repeat;
+            background-color: #fff; }
+            .container .fall ul .item .crollbtn .c:hover {
+              background-color: #f0f0f0; }
+          .container .fall ul .item .crollbtn .b {
+            float: right;
+            width: 36px;
+            z-index: 500;
+            margin-left: 4px;
+            background: url(../../imgs/like.png) -43px 2px no-repeat;
+            background-color: #fff; }
+            .container .fall ul .item .crollbtn .b:hover {
+              background-color: #f0f0f0; }
         .container .fall ul .item .img-header-style {
           width: 222px;
           margin-top: 0 !important;
@@ -737,7 +794,7 @@ body {
             color: #444; }
           .container .fall ul .item .item-content .number {
             padding: 0 12px 10px;
-            border-bottom: 1px solid #f0f0f0;
+            /*border-bottom: 1px solid #f0f0f0;*/
             width: 100%; }
             .container .fall ul .item .item-content .number .h {
               float: left;
@@ -754,8 +811,14 @@ body {
               .container .fall ul .item .item-content .number .p a {
                 color: #F14382;
                 font-weight: 700; }
+            .container .fall ul .item .item-content .number .m {
+              float: left;
+              background: url(../../imgs/like.png) -175px -50px no-repeat;
+              padding-left: 16px;
+              margin-right: 8px; }
           .container .fall ul .item .item-content .item-attr {
-            padding: 8px 11px 15px; }
+            padding: 8px 11px 7px;
+            border-top: 1px solid #f0f0f0; }
             .container .fall ul .item .item-content .item-attr img {
               border-radius: 60%;
               margin-right: 8px; }
@@ -764,11 +827,18 @@ body {
               .container .fall ul .item .item-content .item-attr .attr a {
                 color: #666;
                 font-size: 12px !important; }
-              .container .fall ul .item .item-content .item-attr .attr .collect {
-                margin-left: 10px; }
-        .container .fall ul .item:hover i {
-          border: 1px solid rgba(0, 0, 0, 0.12);
-          background-color: rgba(0, 0, 0, 0.08); }
+              .container .fall ul .item .item-content .item-attr .attr p {
+                color: #888; }
+                .container .fall ul .item .item-content .item-attr .attr p .collect {
+                  margin-left: 10px; }
+        .container .fall ul .item:hover {
+          /*
+          .crollbtn{
+          	display: inline-block;	
+          }	*/ }
+          .container .fall ul .item:hover .img-header-style {
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background-color: rgba(0, 0, 0, 0.08); }
 
 /**************footer*****************/
 footer {

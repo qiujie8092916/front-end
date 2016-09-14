@@ -11,20 +11,22 @@ $(function(){
 	})
 	
 	TabBanner()
-	
 	loadMain(5, 20, 20)
-	
 	showBacktoTop($(window), $("#fix-btn"))
 })
 
 //加载瀑布流
 var loadMain = function(onelineSum){
 	var ap_li = ""
-	
 	ajax("data.json", function(data){
 		var json_result = JSON.parse(data)
 		$.each(json_result, function(i, e){
 			ap_li += '<li class="item inline" data-index="' + i + '">\
+									<div class="crollbtn">\
+										<button class="a"><i></i><em>收集 '+e.heat+'</em></button>\
+										<button class="b"></button>\
+										<button class="c"></button>\
+									</div>\
 									<a href>\
 										<i class="img-header-style inline"></i>\
 										<img src="imgs/main/' + i + '/p.jpeg" />\
@@ -36,21 +38,32 @@ var loadMain = function(onelineSum){
 											<span class="l">' + (e.like === undefined ? "" : e.like) + '</span>\
 											<span class="m">' + (e.message === undefined ? "" : e.message) + '</span>'
 			if(e.price !== undefined){
-				ap_li += '<span class="p"><a href class="gea">￥' + e.price + '</a></span>' 
+				ap_li += 			'<span class="p"><a href class="gea">￥' + e.price + '</a></span>' 
 			}
-			ap_li += '</div>\
-									<div class="item-attr">\
-										<a href><img src="imgs/main/'+i+'/u.jpeg" /></a>\
-										<div class="attr inline">\
-											<a class="gea" href>' + (e.user_name === undefined ? "" : e.user_name) + '</a>\
-											<p>收集到<a class="gea collect" href>' + (e.album === undefined ? "" : e.album) + '</a></p>\
-										</div>\
-									</div>\
-								</div>\
-							</li>' 
+			ap_li += 			'</div>\
+										<div class="item-attr">\
+											<a href><img src="imgs/main/'+i+'/u.jpeg" /></a>\
+											<div class="attr inline">\
+												<a class="gea" href>' + (e.user_name === undefined ? "" : e.user_name) + '</a>\
+												<p>收集到<a class="gea collect" href>' + (e.album === undefined ? "" : e.album) + '</a></p>\
+											</div>\
+										</div>'
+				
+			if(e.message !== undefined){
+				for(var j = 0; j < e.message; j++){
+					ap_li +=	'<div class="item-attr">\
+											<a href><img src="imgs/main/'+i+'/c_' + (j+1) + '.jpeg" /></a>\
+											<div class="attr inline">\
+												<a class="gea" href>' + e["comment_user_" + (j+1)] + '</a>\
+												<p>' + e["comment_" + (j+1)] + '</p>\
+											</div>\
+										</div>'
+				}
+			}
+			ap_li +=		'</div>\
+								</li>'
 		})
 		$(".fall ul").append(ap_li)
-		
 		fall(5, 20, 20)
 		getUIHeight($('.fall ul')[0], $('.fall ul li'), onelineSum)
 	})
@@ -75,6 +88,14 @@ var fall = function(onelineSum, marginRight, marginBottom){
 			
 			$("li[data-index=" + (onelineSum*j+i) + "]").css("left", offsetLeft)
 			$("li[data-index=" + (onelineSum*j+i) + "]").css("top", offsetHeight[i])
+			/*itemCrollBtn($("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn"), $("li[data-index=" + (onelineSum*j+i) + "]"), offsetLeft)*/
+			
+			$win.scroll(function(){
+				if($("li[data-index=" + (onelineSum*j+i) + "]")[0].offsetHeight < 65){
+					$("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn").css("position", "fixed")
+					$("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn").css("top", 65)
+				}
+			})
 			
 			offsetLeft += width + marginRight
 			offsetHeight[i] += height[i] + marginBottom
@@ -163,4 +184,12 @@ var showBacktoTop = function(win, btn){
 			btn.css("display", "none")
 		}
 	})
+}
+
+
+//固定条目快速收集键
+var itemCrollBtn = function(self, parent, offsetLeft){
+	var $win = $(window)
+	var edgeLeft = ($win.width()-1200)/2
+	
 }
