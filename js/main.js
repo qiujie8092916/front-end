@@ -1,6 +1,5 @@
-var title = ["X档案——我们一起翻山又越岭", "猫奴们的福利来了", "生活就像棉花糖，柔软又甜蜜", "约好了一起去那岛上拍照吧", "有一种美好叫早餐"]
-
-var subtitle = ["", "by 喵呜不停", "", "by BalalaPure", "by 料理兔Adia"]
+title = ["X档案——我们一起翻山又越岭", "猫奴们的福利来了", "生活就像棉花糖，柔软又甜蜜", "约好了一起去那岛上拍照吧", "有一种美好叫早餐"]
+subtitle = ["", "by 喵呜不停", "", "by BalalaPure", "by 料理兔Adia"]
 
 $(function(){
 	$(".category").hover(function(){
@@ -11,15 +10,30 @@ $(function(){
 	})
 	
 	TabBanner()
-	loadMain(5, 20, 20)
+	
+	if($(window).width() <= 1262){
+		loadMain(4)
+	} else{
+		loadMain(5)
+	}
+	$(window).resize(function(){
+		if($(window).width() <= 1262){
+			fall(4, 20, 20)
+			getUIHeight($('.fall ul')[0], $('.fall ul li'), 4)
+		} else{
+			fall(5, 20, 20)
+			getUIHeight($('.fall ul')[0], $('.fall ul li'), 5)
+		}
+	})
+	
 	showBacktoTop($(window), $("#fix-btn"))
 })
 
 //加载瀑布流
 var loadMain = function(onelineSum){
 	var ap_li = ""
-	ajax("data.json", function(data){
-		var json_result = JSON.parse(data)
+	$.when(defer("data.json")).done(function(json_result){
+		/*var json_result = eval('(' + data + ')')*/
 		$.each(json_result, function(i, e){
 			ap_li += '<li class="item inline" data-index="' + i + '">\
 									<div class="crollbtn">\
@@ -64,7 +78,15 @@ var loadMain = function(onelineSum){
 								</li>'
 		})
 		$(".fall ul").append(ap_li)
-		fall(5, 20, 20)
+		
+		itemCrollBtn()
+		
+		if($(window).width() <= 1262){
+			fall(4, 20, 20)
+		} else{
+			fall(5, 20, 20)
+		}
+
 		getUIHeight($('.fall ul')[0], $('.fall ul li'), onelineSum)
 	})
 }
@@ -75,32 +97,23 @@ var fall = function(onelineSum, marginRight, marginBottom){
 	var totalNum = $(".fall ul li").length
 	var width = 0
 	var height = new Array()
-	var offsetLeft = 0
 	var offsetHeight = new Array()
 	for(var i = 0; i < onelineSum; i++){
 		offsetHeight[i] = 0
 	}
 
-	for(var j = 0; j < Math.ceil(totalNum / onelineSum); j++){	//column
-		for(var i = 0; i < onelineSum; i++){	//row
+	for(var j = 0; j < Math.ceil(totalNum / onelineSum); j++){	//row
+		var offsetLeft = 0
+		for(var i = 0; i < onelineSum; i++){	//column
 			width = $("li[data-index=" + (onelineSum*j+i) + "]").width()
 			height[i] = $("li[data-index=" + (onelineSum*j+i) + "]").height()
 			
 			$("li[data-index=" + (onelineSum*j+i) + "]").css("left", offsetLeft)
 			$("li[data-index=" + (onelineSum*j+i) + "]").css("top", offsetHeight[i])
-			/*itemCrollBtn($("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn"), $("li[data-index=" + (onelineSum*j+i) + "]"), offsetLeft)*/
-			
-			$win.scroll(function(){
-				if($("li[data-index=" + (onelineSum*j+i) + "]")[0].offsetHeight < 65){
-					$("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn").css("position", "fixed")
-					$("li[data-index=" + (onelineSum*j+i) + "]").children(".crollbtn").css("top", 65)
-				}
-			})
 			
 			offsetLeft += width + marginRight
 			offsetHeight[i] += height[i] + marginBottom
 		}
-		offsetLeft = 0
 	}
 }
 
@@ -184,12 +197,59 @@ var showBacktoTop = function(win, btn){
 			btn.css("display", "none")
 		}
 	})
+	btn.children(".back-top").on("click", function(){
+		$("body").animate({scrollTop:0}, 250)
+	})
 }
 
 
-//固定条目快速收集键
-var itemCrollBtn = function(self, parent, offsetLeft){
+//固定条目快捷收集键
+var itemCrollBtn = function(){
 	var $win = $(window)
-	var edgeLeft = ($win.width()-1200)/2
 	
+	$(".fall").find("li.item").hover(function(){
+		var crollbtn = $(this).children(".crollbtn")
+		
+		if($(this).offset().top - $(document).scrollTop() < 65){
+			crollbtn.css("position", "fixed")
+			crollbtn.css("left", $(this).offset().left)
+			crollbtn.css("top", 65)
+		} else{
+			crollbtn.css("position", "absolute")
+			crollbtn.css("left", 0)
+			crollbtn.css("top", 0)
+		}
+		crollbtn.css("display", "inline-block")
+		
+	}, function(){
+		var crollbtn = $(this).children(".crollbtn")
+		crollbtn.css("display", "none")
+	})
+	
+	$win.scroll(function(){
+		$(".fall").find("li.item").each(function(){
+			var crollbtn = $(this).children(".crollbtn")
+			if($(this).offset().top - $(document).scrollTop() < 65){
+				crollbtn.css("position", "fixed")
+				crollbtn.css("left", $(this).offset().left)
+				crollbtn.css("top", 65)
+			} else{
+				crollbtn.css("position", "absolute")
+				crollbtn.css("left", 0)
+				crollbtn.css("top", 0)
+			}
+		})
+	})
+}
+
+
+var defer = function(url, data){
+	var df = $.Deferred();
+	$.ajax({
+		type: "post",
+ 		url: url,
+		data: data,
+		success: function(data, textStatus){df.resolve(data);}
+	});
+	return df.promise();
 }
