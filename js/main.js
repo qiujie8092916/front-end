@@ -19,10 +19,8 @@ $(function(){
 	$(window).resize(function(){
 		if($(window).width() <= 1262){
 			fall(4, 20, 20)
-			getUIHeight($('.fall ul')[0], $('.fall ul li'), 4)
 		} else{
 			fall(5, 20, 20)
-			getUIHeight($('.fall ul')[0], $('.fall ul li'), 5)
 		}
 	})
 	
@@ -41,9 +39,9 @@ var loadMain = function(onelineSum){
 										<button class="b"></button>\
 										<button class="c"></button>\
 									</div>\
-									<a href>\
+									<a href class="lg-img">\
 										<i class="img-header-style inline"></i>\
-										<img src="imgs/main/' + i + '/p.jpeg" />\
+										<img src="imgs/main/' + i + '/p.jpeg" width="224" height="100%" />\
 									</a>\
 									<div class="item-content">\
 										<p class="item-desc">' + (e.desc === undefined ? "" : e.desc) + '</p>\
@@ -82,21 +80,50 @@ var loadMain = function(onelineSum){
 		itemCrollBtn()
 		
 		if($(window).width() <= 1262){
-			fall(4, 20, 20)
+			// 判断图片加载状况，加载完成后回调
+			isImgLoad(function(){
+				fall(onelineSum, 20, 20)
+			});
 		} else{
-			fall(5, 20, 20)
+			// 判断图片加载状况，加载完成后回调
+			isImgLoad(function(){
+				fall(onelineSum, 20, 20)
+			});
 		}
-
-		getUIHeight($('.fall ul')[0], $('.fall ul li'), onelineSum)
 	})
 }
 
 
+var t_img; // 定时器
+var isLoad = true; // 控制变量
+function isImgLoad(callback){	// 判断图片加载的函数
+    // 注意我的图片都是lg-img下的img，因为我只需要处理$('.lg-img img')。其它图片可以不管。
+    // 查找所有封面图，迭代处理
+    $('.lg-img img').each(function(){
+        // 找到为0就将isLoad设为false，并退出each
+        if(this.height === 0){
+            isLoad = false;
+            return false;
+        }
+    });
+    // 为true，没有发现为0的。加载完毕
+    if(isLoad){
+        clearTimeout(t_img); // 清除定时器
+        // 回调函数
+        callback();
+    // 为false，因为找到了没有加载完成的图，将调用定时器递归
+    }else{
+        isLoad = true;
+        t_img = setTimeout(function(){
+            isImgLoad(callback); // 递归扫描
+        },500); // 我这里设置的是500毫秒就扫描一次，可以自己调整
+    }
+}
+
+
 //瀑布流布局
-var fall = function(onelineSum, marginRight, marginBottom){	
+var fall = function(onelineSum, marginRight, marginBottom){
 	var totalNum = $(".fall ul li").length
-	var width = 0
-	var height = new Array()
 	var offsetHeight = new Array()
 	for(var i = 0; i < onelineSum; i++){
 		offsetHeight[i] = 0
@@ -104,8 +131,9 @@ var fall = function(onelineSum, marginRight, marginBottom){
 
 	for(var j = 0; j < Math.ceil(totalNum / onelineSum); j++){	//row
 		var offsetLeft = 0
+		var height = new Array()
 		for(var i = 0; i < onelineSum; i++){	//column
-			width = $("li[data-index=" + (onelineSum*j+i) + "]").width()
+			var width = $("li[data-index=" + (onelineSum*j+i) + "]").width()
 			height[i] = $("li[data-index=" + (onelineSum*j+i) + "]").height()
 			
 			$("li[data-index=" + (onelineSum*j+i) + "]").css("left", offsetLeft)
@@ -115,6 +143,8 @@ var fall = function(onelineSum, marginRight, marginBottom){
 			offsetHeight[i] += height[i] + marginBottom
 		}
 	}
+	
+	getUIHeight($('.fall ul')[0], $('.fall ul li'), onelineSum)
 }
 
 
